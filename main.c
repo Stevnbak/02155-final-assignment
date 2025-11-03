@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "memory.h"
+#include "cpu.h"
 #include "formats/formats.h"
 
 typedef enum Type {
@@ -22,6 +22,8 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t rs2 = (instruction >> 20) & 0x1f;
     uint8_t funct3 = (instruction >> 12) & 0x1f;
     uint8_t funct7 = (instruction >> 25) & 0x1f;
+
+    printf("Opcode=%u;rd=%u;rs1=%u;rs2=%u;funct3=%u;funct7=%u\n", opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
@@ -56,6 +58,7 @@ int main(int argc, char* argv[]) {
     // Open binary file
     if(argc < 2) return 1;
     char* filename = argv[1];
+    printf("Trying to open \"%s\"\n", filename);
     FILE* file = fopen(filename, "r");
     if(file == NULL) {
         printf("Failed to open file\n");
@@ -66,7 +69,8 @@ int main(int argc, char* argv[]) {
     // Read binary file
     uint32_t instruction;
     uint16_t i = 0;
-    while(fread(&instruction, 4, 1, file) < 1) {
+    while(1) {
+        if(fread(&instruction, 4, 1, file) < 1) break;
         instructionMemory[i++] = instruction;
     };
 
@@ -75,7 +79,7 @@ int main(int argc, char* argv[]) {
         instruction = instructionMemory[PC / 4];
         PC += 4;
         if(decodeAndExecuteInstruction(instruction) < 0) {
-            printf("Instruction failed!\n");
+            printf("Instruction at PC %u failed!\n", PC);
             break;
         }
     }

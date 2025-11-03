@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "cpu.h"
 
 uint32_t instructionMemory[1 * 1000];
 char dataMemory[1 * 1000 * 1000];
