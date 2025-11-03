@@ -8,5 +8,5 @@ int executeUFormat(
     uint8_t funct3,
     uint8_t funct7
 ) {
-    
+    return 0;
 }

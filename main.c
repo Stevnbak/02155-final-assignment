@@ -3,13 +3,7 @@
 #include <stdint.h>
 
 #include "memory.h"
-
-#include "B.c";
-#include "I.c";
-#include "J.c";
-#include "R.c";
-#include "S.c";
-#include "U.c";
+#include "formats/formats.h"
 
 typedef enum Type {
     R,
@@ -42,23 +36,19 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     // Execute instructions
     switch(type) {
         case B: 
-            executeBFormat(rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeBFormat(rd, rs1, rs2, funct3, funct7); 
         case I: 
-            executeIFormat(opcode, rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeIFormat(opcode, rd, rs1, rs2, funct3, funct7); 
         case J: 
-            executeJFormat(rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeJFormat(rd, rs1, rs2, funct3, funct7); 
         case R: 
-            executeRFormat(rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeRFormat(rd, rs1, rs2, funct3, funct7); 
         case S: 
-            executeSFormat(rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeSFormat(rd, rs1, rs2, funct3, funct7); 
         case U: 
-            executeUFormat(opcode, rd, rs1, rs2, funct3, funct7); 
-            break;
+            return executeUFormat(opcode, rd, rs1, rs2, funct3, funct7); 
+        default:
+            return -1;
     }
 }
 
@@ -76,14 +66,15 @@ int main(int argc, char* argv[]) {
     // Read binary file
     uint32_t instruction;
     uint16_t i = 0;
-    while(1) {
-        if(fread(&instruction, 4, 1, file) < 1) break;
+    while(fread(&instruction, 4, 1, file) < 1) {
         instructionMemory[i++] = instruction;
     };
 
     // Execute program
     while(running) {
-        if(decodeAndExecuteInstruction(instructionMemory[PC / 4]) < 0) {
+        instruction = instructionMemory[PC / 4];
+        PC += 4;
+        if(decodeAndExecuteInstruction(instruction) < 0) {
             printf("Instruction failed!\n");
             break;
         }
