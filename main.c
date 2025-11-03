@@ -20,10 +20,10 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t rd = (instruction >> 7) & 0x1f;
     uint8_t rs1 = (instruction >> 15) & 0x1f;
     uint8_t rs2 = (instruction >> 20) & 0x1f;
-    uint8_t funct3 = (instruction >> 12) & 0x1f;
+    uint8_t funct3 = (instruction >> 12) & 0x3;
     uint8_t funct7 = (instruction >> 25) & 0x1f;
 
-    printf("Opcode=%u;rd=%u;rs1=%u;rs2=%u;funct3=%u;funct7=%u\n", opcode, rd, rs1, rs2, funct3, funct7);
+    printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
@@ -73,6 +73,9 @@ int main(int argc, char* argv[]) {
         if(fread(&instruction, 4, 1, file) < 1) break;
         instructionMemory[i++] = instruction;
     };
+    
+    // Close file again
+    fclose(file);
 
     // Execute program
     while(running) {
@@ -84,6 +87,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Close file again
-    fclose(file);
+
+    return returnCode;
 }

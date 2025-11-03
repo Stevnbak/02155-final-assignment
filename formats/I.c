@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include "../cpu.h"
 
 int executeIFormat(
@@ -64,6 +65,47 @@ int executeIFormat(
         case 0x67: //1100111
             break;
         case 0x73: //1110011
+            if (imm != 0) return -1;
+            uint32_t a7 = getRegisterUnsigned(17);
+            uint32_t a0 = getRegisterUnsigned(10);
+            switch(a7) {
+                case 1: // print_int
+                    printf("%d", *((int32_t*)&a0));
+                    break;
+                case 2: // print_float
+                    printf("%f", *((float*)&a0));
+                    break;
+                case 4: // print_string
+                    while(1) {
+                        if(dataMemory[a0] == 0) break;
+                        printf("%c", dataMemory[a0++]);
+                    }
+                    break;
+                case 10: // exit
+                    running = 0;
+                    break;
+                case 11: // print_char
+                    printf("%c", a0);
+                    break;
+                case 34: // print_hex
+                    printf("%#x", a0);
+                    break;
+                case 35: // print_bin
+                    for(uint8_t i = 0; i < 32; i++) {
+                        printf("%u", a0 & 0x80000000);
+                        a0 = a0 << 1;
+                    }
+                    break;
+                case 36: // print_unsigned
+                    printf("%u", a0);
+                    break;
+                case 93: // exit
+                    running = 0;
+                    returnCode = a0;
+                    break;
+                default:
+                    return -1;
+            }
             break;
         default:
             return -1;

@@ -5,6 +5,7 @@ char dataMemory[1 * 1000 * 1000];
 
 uint8_t running = 1;
 uint32_t PC = 0;
+int returnCode = 0;
 
 int registers[32];
 

@@ -10,3 +10,4 @@ void setRegisterUnsigned(uint8_t reg, uint32_t value);
 
 extern uint8_t running;
 extern uint32_t PC;
+extern int returnCode;
