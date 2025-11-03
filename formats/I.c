@@ -41,6 +41,8 @@ int executeIFormat(
                 case 0x7: // andi
                     setRegister(rd, getRegister(rs1) & imm);
                     break;
+                default:
+                    return -1;
             }
             break;
         case 0x3:  //0000011
@@ -63,6 +65,8 @@ int executeIFormat(
             break;
         case 0x73: //1110011
             break;
+        default:
+            return -1;
     }
     return 0;
 }
