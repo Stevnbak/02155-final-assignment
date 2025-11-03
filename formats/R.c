@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "memory.h"
+#include "../cpu.h"
 
 int executeRFormat(
     uint8_t rd,
@@ -10,9 +10,9 @@ int executeRFormat(
 ) {
     switch (funct3) {
         case 0x0: 
-            if (funct7 = 0x00) { // ADD
+            if (funct7 == 0x00) { // ADD
                 setRegister(rd, getRegister(rs1) + getRegister(rs2));   
-            } else if (funct7 = 0x20) { // SUB
+            } else if (funct7 == 0x20) { // SUB
                 setRegister(rd, getRegister(rs1) - getRegister(rs2));
             } 
             break;
@@ -29,10 +29,10 @@ int executeRFormat(
             setRegister(rd, getRegister(rs1) ^ getRegister(rs2));
             break;
         case 0x5: 
-            if (funct7 = 0x00){ // srl
+            if (funct7 == 0x00){ // srl
                 setRegisterUnsigned(rd, getRegisterUnsigned(rs1) >> getRegisterUnsigned(rs2));
             }
-            else if (funct7 = 0x20){ // sra
+            else if (funct7 == 0x20){ // sra
                 setRegister(rd, getRegister(rs1) >> getRegister(rs2));
             }
             break;

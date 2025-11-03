@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "../cpu.h"
 
 int executeIFormat(
     uint8_t opcode,
@@ -43,6 +44,20 @@ int executeIFormat(
             }
             break;
         case 0x3:  //0000011
+            switch(funct3) {
+                case 0x0: // lb
+                    setRegister(rd, *((int8_t*)&dataMemory[getRegister(rs1) + imm]));
+                case 0x1: // lh
+                    setRegister(rd, *((int16_t*)&dataMemory[getRegister(rs1) + imm]));
+                case 0x2: // lw
+                    setRegister(rd, *((int32_t*)&dataMemory[getRegister(rs1) + imm]));
+                case 0x4: // lbu
+                    setRegister(rd, *((uint8_t*)&dataMemory[getRegister(rs1) + imm]));
+                case 0x5: // lhu
+                    setRegister(rd, *((uint16_t*)&dataMemory[getRegister(rs1) + imm]));
+                default:
+                    return -1;
+            }
             break;
         case 0x67: //1100111
             break;
