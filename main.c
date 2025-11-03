@@ -87,6 +87,12 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    // Print register contents
+    for(uint8_t r = 0; r < 32; r++) {
+        uint32_t u = getRegisterUnsigned(r);
+        int32_t i = getRegister(r);
+        printf("x%u:\tUnsigned=%u\tSigned=%i\tHex=%#x\n", r, u, i, u);
+    }
 
     return returnCode;
 }
