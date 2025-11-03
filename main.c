@@ -21,7 +21,7 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t rs1 = (instruction >> 15) & 0x1f;
     uint8_t rs2 = (instruction >> 20) & 0x1f;
     uint8_t funct3 = (instruction >> 12) & 0x3;
-    uint8_t funct7 = (instruction >> 25) & 0x1f;
+    uint8_t funct7 = (instruction >> 25) & 0x7f;
 
     printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     for(uint8_t r = 0; r < 32; r++) {
         uint32_t u = getRegisterUnsigned(r);
         int32_t i = getRegister(r);
-        printf("x%u:\tUnsigned=%u\tSigned=%i\tHex=%#x\n", r, u, i, u);
+        printf("x%u:\t\tUnsigned=%u\t\tSigned=%i\t\tHex=%#x\n", r, u, i, u);
     }
 
     return returnCode;

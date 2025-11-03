@@ -10,12 +10,13 @@ int executeIFormat(
     uint8_t funct3,
     uint8_t funct7
 ) {
-    uint16_t imm = (((uint16_t)funct7) << 5) + rs2;
+    uint16_t immu = (((uint16_t)funct7) << 5) + rs2;
+    int16_t imm = (((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 5) + rs2;
     switch(opcode) {
         case 0x13: //0010011
             switch(funct3){
                 case 0x0: // addi
-                    setRegister(rd, getRegister(rs1) + (int16_t) imm);
+                    setRegister(rd, getRegister(rs1) + imm);
                     break;
                 case 0x1: // slli
                     setRegister(rd, getRegister(rs1) >> rd);
@@ -24,10 +25,10 @@ int executeIFormat(
                     setRegister(rd, (getRegister(rs1) < imm) ? 1 : 0);
                     break; 
                 case 0x3: // sltiu
-                    setRegisterUnsigned(rd, (getRegisterUnsigned(rs1) < imm) ? 1 : 0);
+                    setRegisterUnsigned(rd, (getRegisterUnsigned(rs1) < immu) ? 1 : 0);
                     break;
                 case 0x4: //xori
-                    setRegister(rd, getRegister(rs1) ^ imm);
+                    setRegister(rd, getRegister(rs1) ^ immu);
                     break;
                 case 0x5:
                     if ((funct7 & 0x20)){ // srli
@@ -37,10 +38,10 @@ int executeIFormat(
                     }
                     break;
                 case 0x6: // ori
-                    setRegister(rd, getRegister(rs1) | imm);
+                    setRegister(rd, getRegister(rs1) | immu);
                     break;
                 case 0x7: // andi
-                    setRegister(rd, getRegister(rs1) & imm);
+                    setRegister(rd, getRegister(rs1) & immu);
                     break;
                 default:
                     return -1;
