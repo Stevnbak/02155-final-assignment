@@ -63,6 +63,9 @@ int executeIFormat(
             }
             break;
         case 0x67: //1100111
+            if(funct3 != 0) return -1;
+            setRegister(rd, PC);
+            PC = getRegister(rs1) + imm;
             break;
         case 0x73: //1110011
             if (imm != 0) return -1;
