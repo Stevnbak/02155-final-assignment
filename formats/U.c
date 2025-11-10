@@ -8,11 +8,11 @@ int executeUFormat(
 ) {
     uint32_t imm = (instruction >> 12) << 12;
     switch(opcode){
-        case 0x37: 
+        case 0x37:
             setRegister(rd, imm);
             break;
-        case 0x17: 
-            setRegister(rd, PC + imm);
+        case 0x17:
+            setRegister(rd, PC + imm - 4);
             break;
         default:
             return -1;
