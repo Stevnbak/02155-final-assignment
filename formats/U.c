@@ -15,7 +15,7 @@ int executeUFormat(
             setRegister(rd, (imm << 12));
             break;
         case 0x17: 
-            PC += (imm << 12);
+            setRegister(rd, PC + (imm << 12));
             break;
         default:
             return -1;

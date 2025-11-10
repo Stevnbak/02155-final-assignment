@@ -54,6 +54,14 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     }
 }
 
+void printRegisters() {
+    for(uint8_t r = 0; r < 32; r++) {
+        uint32_t u = getRegisterUnsigned(r);
+        int32_t i = getRegister(r);
+        printf("x%u:\tUnsigned=%u\tSigned=%i\tHex=%#x\n", r, u, i, u);
+    }
+}
+
 int main(int argc, char* argv[]) {
     // Open binary file
     if(argc < 2) return 1;
@@ -85,14 +93,11 @@ int main(int argc, char* argv[]) {
             printf("Instruction at PC %u failed!\n", PC);
             break;
         }
+        printRegisters();
     }
 
     // Print register contents
-    for(uint8_t r = 0; r < 32; r++) {
-        uint32_t u = getRegisterUnsigned(r);
-        int32_t i = getRegister(r);
-        printf("x%u:\t\tUnsigned=%u\t\tSigned=%i\t\tHex=%#x\n", r, u, i, u);
-    }
+    printRegisters();
 
     return returnCode;
 }
