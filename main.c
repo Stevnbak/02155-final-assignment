@@ -20,10 +20,10 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t rd = (instruction >> 7) & 0x1f;
     uint8_t rs1 = (instruction >> 15) & 0x1f;
     uint8_t rs2 = (instruction >> 20) & 0x1f;
-    uint8_t funct3 = (instruction >> 12) & 0x3;
+    uint8_t funct3 = (instruction >> 12) & 0x7;
     uint8_t funct7 = (instruction >> 25) & 0x7f;
 
-    //printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
+    printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
