@@ -4,18 +4,15 @@
 int executeUFormat(
     uint8_t opcode,
     uint8_t rd,
-    uint8_t rs1,
-    uint8_t rs2,
-    uint8_t funct3,
-    uint8_t funct7
+    uint32_t instruction
 ) {
-    uint32_t imm = (((uint32_t)funct7) << 13) + (((uint32_t)rs2) << 8) + (((uint32_t)rs1) << 3) + (((uint32_t)funct3));
+    uint32_t imm = (instruction >> 12) << 12;
     switch(opcode){
         case 0x37: 
-            setRegister(rd, (imm << 12));
+            setRegister(rd, imm);
             break;
         case 0x17: 
-            setRegister(rd, PC + (imm << 12));
+            setRegister(rd, PC + imm);
             break;
         default:
             return -1;

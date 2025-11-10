@@ -23,7 +23,7 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t funct3 = (instruction >> 12) & 0x3;
     uint8_t funct7 = (instruction >> 25) & 0x7f;
 
-    printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
+    //printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
@@ -48,7 +48,7 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
         case S: 
             return executeSFormat(rd, rs1, rs2, funct3, funct7); 
         case U: 
-            return executeUFormat(opcode, rd, rs1, rs2, funct3, funct7); 
+            return executeUFormat(opcode, rd, instruction); 
         default:
             return -1;
     }
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
             printf("Instruction at PC %u failed!\n", PC);
             break;
         }
-        printRegisters();
+        //printRegisters();
     }
 
     // Print register contents
