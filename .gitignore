@@ -3,3 +3,5 @@ runTests
 tests
 
 .nfs*
+
+.zed

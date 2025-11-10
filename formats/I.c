@@ -23,7 +23,7 @@ int executeIFormat(
                     break;
                 case 0x2: // slti
                     setRegister(rd, (getRegister(rs1) < imm) ? 1 : 0);
-                    break; 
+                    break;
                 case 0x3: // sltiu
                     setRegisterUnsigned(rd, (getRegisterUnsigned(rs1) < immu) ? 1 : 0);
                     break;
@@ -50,15 +50,20 @@ int executeIFormat(
         case 0x3:  //0000011
             switch(funct3) {
                 case 0x0: // lb
-                    setRegister(rd, *((int8_t*)&dataMemory[getRegister(rs1) + imm]));
+                    setRegister(rd, *((int8_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    break;
                 case 0x1: // lh
-                    setRegister(rd, *((int16_t*)&dataMemory[getRegister(rs1) + imm]));
+                    setRegister(rd, *((int16_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    break;
                 case 0x2: // lw
-                    setRegister(rd, *((int32_t*)&dataMemory[getRegister(rs1) + imm]));
+                    setRegister(rd, *((int32_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    break;
                 case 0x4: // lbu
-                    setRegister(rd, *((uint8_t*)&dataMemory[getRegister(rs1) + imm]));
+                    setRegister(rd, *((uint8_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    break;
                 case 0x5: // lhu
-                    setRegister(rd, *((uint16_t*)&dataMemory[getRegister(rs1) + imm]));
+                    setRegister(rd, *((uint16_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    break;
                 default:
                     return -1;
             }

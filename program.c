@@ -37,18 +37,18 @@ int decodeAndExecuteInstruction(uint32_t instruction, int print) {
 
     // Execute instructions
     switch(type) {
-        case B: 
-            return executeBFormat(rd, rs1, rs2, funct3, funct7); 
-        case I: 
-            return executeIFormat(opcode, rd, rs1, rs2, funct3, funct7); 
-        case J: 
-            return executeJFormat(rd, rs1, rs2, funct3, funct7); 
-        case R: 
-            return executeRFormat(rd, rs1, rs2, funct3, funct7); 
-        case S: 
-            return executeSFormat(rd, rs1, rs2, funct3, funct7); 
-        case U: 
-            return executeUFormat(opcode, rd, instruction); 
+        case B:
+            return executeBFormat(rd, rs1, rs2, funct3, funct7);
+        case I:
+            return executeIFormat(opcode, rd, rs1, rs2, funct3, funct7);
+        case J:
+            return executeJFormat(rd, instruction);
+        case R:
+            return executeRFormat(rd, rs1, rs2, funct3, funct7);
+        case S:
+            return executeSFormat(rd, rs1, rs2, funct3, funct7);
+        case U:
+            return executeUFormat(opcode, rd, instruction);
         default:
             return -1;
     }
@@ -79,7 +79,7 @@ int executeProgram(char* filename, int print) {
         if(fread(&instruction, 4, 1, file) < 1) break;
         instructionMemory[i++] = instruction;
     };
-    
+
     // Close file again
     fclose(file);
 
