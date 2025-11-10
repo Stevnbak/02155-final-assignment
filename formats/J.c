@@ -3,27 +3,14 @@
 
 int executeJFormat(
     uint8_t rd,
-    uint8_t rs1,
-    uint8_t rs2,
-    uint8_t funct3,
-    uint8_t funct7
+    uint32_t instruction
 ) {
-    /*uint32_t ordered_immu = ((uint32_t)funct7 << 13) + ((uint32_t)rs2 << 8) + ((uint32_t)rs1 << 3) + funct3;
-    uint32_t immu =
-        (ordered_immu & 0x80000) +
-        ((ordered_immu & 0x7F800) >> 12) +
-        ((ordered_immu & 0x400) >> 3) +
-        ((ordered_immu & 0x3FF) << 9);*/
-    int32_t ordered_imm = 
-        ((int32_t)((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 13) +
-        ((int32_t)rs2 << 8) +
-        ((int32_t)rs1 << 3) +
-        funct3;
-    int32_t imm =
-        (ordered_imm & 0x80000) +
-        ((ordered_imm & 0x7F800) >> 12) +
-        ((ordered_imm & 0x400) >> 3) +
-        ((ordered_imm & 0x3FF) << 9);
+    uint32_t bit31 = (instruction & 0x80000000);
+    uint32_t bit12_19 = (instruction & 0x0000000F0F000000) << 11;
+    uint32_t bit20 = (instruction & 0x0000010000000000) << 2;
+    uint32_t bit21_30 = (instruction & 0x070F0E0000000000) >> 9; // måske shift 10?
+    int32_t imm = (int32_t)((int32_t*)&bit31) >> 12;
+    
     setRegister(rd, PC);
     PC += imm - 4;
     return 0;

@@ -14,7 +14,7 @@ typedef enum Type {
     J
 } Type;
 
-int decodeAndExecuteInstruction(uint32_t instruction) {
+int decodeAndExecuteInstruction(uint32_t instruction, int print) {
     // Decode info
     uint8_t opcode = instruction & 0x7f;
     uint8_t rd = (instruction >> 7) & 0x1f;
@@ -23,7 +23,7 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t funct3 = (instruction >> 12) & 0x7;
     uint8_t funct7 = (instruction >> 25) & 0x7f;
 
-    //printf("PC=%u:\tOpcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", PC, opcode, rd, rs1, rs2, funct3, funct7);
+    if(print) printf("PC=%u:\tInstruction=%#04x\tOpcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", PC, instruction, opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
@@ -89,7 +89,7 @@ int executeProgram(char* filename, int print) {
     while(running) {
         instruction = instructionMemory[PC / 4];
         PC += 4;
-        if(decodeAndExecuteInstruction(instruction) < 0) {
+        if(decodeAndExecuteInstruction(instruction, print) < 0) {
             if(print) printf("Instruction at PC %u failed!\n", PC);
             break;
         }
@@ -97,7 +97,10 @@ int executeProgram(char* filename, int print) {
     }
 
     // Print register contents
-    if(print) printRegisters();
+    if(print) {
+        printf("Final registers:\n");
+        printRegisters();
+    }
 
     return returnCode;
 }
