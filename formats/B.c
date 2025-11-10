@@ -7,39 +7,41 @@ int executeBFormat(
     uint8_t funct3,
     uint8_t funct7
 ) {
-    
-    
-    uint16_t imm_temp = (((uint16_t) funct7 << 7) + rd) << 1;
-    uint16_t imm = (imm_temp & 0x1000 >> 1) + ((imm_temp & 0x7E0)) + ((imm_temp & 0x3E)) + ((imm_temp & 0x800) >> 11);
+    uint16_t bit11 = (uint16_t)(rd & 0x1) << 11;
+    uint16_t bit12 = (uint16_t)(funct7 & 0x40) << 6;
+    uint16_t bit1_4 = (uint16_t)(rd & 0x1e);
+    uint16_t bit5_10 = (uint16_t)(funct7 & 0x3f) << 5;
+    int16_t imm = ((int16_t)((*(int16_t*)&bit12) << 3) >> 3) + bit11 + bit5_10 + bit1_4;
+
     switch (funct3){
         case 0x0: // beq
             if (getRegister(rs1) == getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         case 0x1: // bne
             if (getRegister(rs1) != getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         case 0x4: // blt
             if (getRegister(rs1) < getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         case 0x5: // bge
             if (getRegister(rs1) >= getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         case 0x6: // bltu
             if (getRegister(rs1) < getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         case 0x7: // bgeu
             if (getRegister(rs1) <= getRegister(rs2)){
-                PC += imm;
+                PC += imm - 4;
             }
             break;
         default:

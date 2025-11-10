@@ -25,6 +25,6 @@ int executeJFormat(
         ((ordered_imm & 0x400) >> 3) +
         ((ordered_imm & 0x3FF) << 9);
     setRegister(rd, PC);
-    PC += imm;
+    PC += imm - 4;
     return 0;
 }
