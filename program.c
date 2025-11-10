@@ -23,7 +23,7 @@ int decodeAndExecuteInstruction(uint32_t instruction) {
     uint8_t funct3 = (instruction >> 12) & 0x7;
     uint8_t funct7 = (instruction >> 25) & 0x7f;
 
-    printf("Opcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", opcode, rd, rs1, rs2, funct3, funct7);
+    //printf("PC=%u:\tOpcode=%#04x;rd=%#04x;rs1=%#04x;rs2=%#04x;funct3=%#04x;funct7=%#04x\n", PC, opcode, rd, rs1, rs2, funct3, funct7);
 
     // Get instruction format type
     Type type;
@@ -62,17 +62,15 @@ void printRegisters() {
     }
 }
 
-int main(int argc, char* argv[]) {
+int executeProgram(char* filename, int print) {
     // Open binary file
-    if(argc < 2) return 1;
-    char* filename = argv[1];
-    printf("Trying to open \"%s\"\n", filename);
+    if(print) printf("Trying to open \"%s\"\n", filename);
     FILE* file = fopen(filename, "r");
     if(file == NULL) {
         printf("Failed to open file\n");
         return 1;
     }
-    printf("Opened file\n");
+    if(print) printf("Opened file\n");
 
     // Read binary file
     uint32_t instruction;
@@ -86,18 +84,24 @@ int main(int argc, char* argv[]) {
     fclose(file);
 
     // Execute program
+    PC = 0;
+    running = 1;
     while(running) {
         instruction = instructionMemory[PC / 4];
         PC += 4;
         if(decodeAndExecuteInstruction(instruction) < 0) {
-            printf("Instruction at PC %u failed!\n", PC);
+            if(print) printf("Instruction at PC %u failed!\n", PC);
             break;
         }
-        //printRegisters();
+        if(print) printRegisters();
     }
 
     // Print register contents
-    printRegisters();
+    if(print) printRegisters();
 
     return returnCode;
+}
+
+void reset() {
+    for(int i = 0; i < 32; i++) setRegister(i, 0);
 }

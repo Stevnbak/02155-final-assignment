@@ -1,9 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -O2 -g
+CFLAGS = -Wall -g
 
-all: isaSim
+all: isaSim runTests
 
-isaSim: main.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
-	$(CC) $(CFLAGS) -o isaSim main.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
+isaSim: singleFile.c program.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
+	$(CC) $(CFLAGS) -o isaSim singleFile.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
+runTests: allTests.c program.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
+	$(CC) $(CFLAGS) -o runTests allTests.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c -w
 clean:
 	rm -f isaSim
