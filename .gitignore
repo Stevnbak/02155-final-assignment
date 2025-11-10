@@ -1,2 +1,5 @@
 isaSim
+runTests
 tests
+
+.nfs*
