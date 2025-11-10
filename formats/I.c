@@ -19,7 +19,7 @@ int executeIFormat(
                     setRegister(rd, getRegister(rs1) + imm);
                     break;
                 case 0x1: // slli
-                    setRegister(rd, getRegister(rs1) >> rd);
+                    setRegister(rd, getRegister(rs1) << rs2);
                     break;
                 case 0x2: // slti
                     setRegister(rd, (getRegister(rs1) < imm) ? 1 : 0);
@@ -31,10 +31,10 @@ int executeIFormat(
                     setRegister(rd, getRegister(rs1) ^ immu);
                     break;
                 case 0x5:
-                    if ((funct7 & 0x20)){ // srli
-                        setRegisterUnsigned(rd, getRegisterUnsigned(rs1) << rd);
-                    } else if (!funct7 & 0x00) { // srai
-                        setRegister(rd, getRegister(rs1) << rd);
+                    if (funct7 == 0x00){ // srli
+                        setRegisterUnsigned(rd, getRegisterUnsigned(rs1) >> rs2);
+                    } else if (funct7 & 0x20) { // srai
+                        setRegister(rd, getRegister(rs1) >> rs2);
                     }
                     break;
                 case 0x6: // ori
