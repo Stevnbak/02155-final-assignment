@@ -77,6 +77,7 @@ int executeProgram(char* filename, int print) {
     uint16_t i = 0;
     while(1) {
         if(fread(&instruction, 4, 1, file) < 1) break;
+        *(uint32_t*)(&dataMemory[i * 4]) = instruction;
         instructionMemory[i++] = instruction;
     };
 
