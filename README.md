@@ -14,7 +14,4 @@ To run a single file, just a .bin file is needed, where .bin is the binary code 
 ```
  ./singleFile <path/to/binary_test_file>
 ```
-Link for sheet of func3/func7/opcode for each instruction: https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf
-
-Github for project: https://github.com/schoeberl/cae-lab/tree/master/finasgmt
 
