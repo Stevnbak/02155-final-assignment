@@ -1,5 +1,9 @@
-#include "program.c"
+#include "src/program.h"
+#include "src/cpu.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdint.h>
 #include <dirent.h>
 #include <string.h>
 

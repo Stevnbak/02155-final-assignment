@@ -1,4 +1,4 @@
-#include "program.c"
+#include "src/program.h"
 
 // Execute single program
 int main(int argc, char* argv[]) {

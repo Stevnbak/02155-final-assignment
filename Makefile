@@ -1,12 +1,24 @@
 CC = gcc
 CFLAGS = -Wall -g
 
-all: isaSim runTests
+SRC=src
+BIN=bin
 
-isaSim: singleFile.c program.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
-	$(CC) $(CFLAGS) -o isaSim singleFile.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
-runTests: allTests.c program.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c
-	$(CC) $(CFLAGS) -o runTests allTests.c formats/B.c formats/I.c formats/J.c formats/R.c formats/S.c formats/U.c cpu.c -w
+SRCS=$(wildcard $(SRC)/*.c) $(wildcard $(SRC)/*/*.c)
+HEADERS=$(wildcard $(SRC)/*.h) $(wildcard $(SRC)/*/*.h)
+BINS=$(SRCS:%.c=%.o)
+
+all: singleFile runTests
+
+singleFile: singleFile.c $(BINS)
+	$(CC) $(CFLAGS) -o singleFile singleFile.c $(BINS)
+runTests: runTests.c $(BINS)
+	$(CC) $(CFLAGS) -o runTests runTests.c $(BINS)
+
+%.o: %.c $(HEADERS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
 clean:
-	rm -f isaSim
+	rm -f $(BINS)
+	rm -f singleFile
 	rm -f runTests
