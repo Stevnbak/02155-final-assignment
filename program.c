@@ -77,8 +77,8 @@ int executeProgram(char* filename, int print) {
     uint16_t i = 0;
     while(1) {
         if(fread(&instruction, 4, 1, file) < 1) break;
-        *(uint32_t*)(&dataMemory[i * 4]) = instruction;
-        instructionMemory[i++] = instruction;
+        *(uint32_t*)(&memory[i * 4]) = instruction;
+        i++;
     };
 
     // Close file again
@@ -88,7 +88,7 @@ int executeProgram(char* filename, int print) {
     PC = 0;
     running = 1;
     while(running) {
-        instruction = instructionMemory[PC / 4];
+        instruction = *((uint32_t*)(&memory[PC]));
         PC += 4;
         if(decodeAndExecuteInstruction(instruction, print) < 0) {
             if(print) printf("Instruction at PC %u failed!\n", PC);

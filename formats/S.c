@@ -12,13 +12,13 @@ int executeSFormat(
     int16_t imm = (((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 5) + rd;
     switch(funct3) {
         case 0x0:
-            *(uint8_t*)(&dataMemory[getRegister(rs1) + imm]) = (uint8_t)getRegisterUnsigned(rs2);
+            *(uint8_t*)(&memory[getRegister(rs1) + imm]) = (uint8_t)getRegisterUnsigned(rs2);
             break;
         case 0x1:
-            *(uint16_t*)(&dataMemory[getRegister(rs1) + imm]) = (uint16_t)getRegisterUnsigned(rs2);
+            *(uint16_t*)(&memory[getRegister(rs1) + imm]) = (uint16_t)getRegisterUnsigned(rs2);
             break;
         case 0x2:
-            *(uint32_t*)(&dataMemory[getRegister(rs1) + imm]) = (uint32_t)getRegisterUnsigned(rs2);
+            *(uint32_t*)(&memory[getRegister(rs1) + imm]) = (uint32_t)getRegisterUnsigned(rs2);
             break;
         default: 
             return -1;

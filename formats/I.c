@@ -53,19 +53,19 @@ int executeIFormat(
         case 0x3:  //0000011
             switch(funct3) {
                 case 0x0: // lb
-                    setRegister(rd, *((int8_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    setRegister(rd, *((int8_t*)&memory[getRegisterUnsigned(rs1) + imm]));
                     break;
                 case 0x1: // lh
-                    setRegister(rd, *((int16_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    setRegister(rd, *((int16_t*)&memory[getRegisterUnsigned(rs1) + imm]));
                     break;
                 case 0x2: // lw
-                    setRegister(rd, *((int32_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    setRegister(rd, *((int32_t*)&memory[getRegisterUnsigned(rs1) + imm]));
                     break;
                 case 0x4: // lbu
-                    setRegister(rd, *((uint8_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    setRegister(rd, *((uint8_t*)&memory[getRegisterUnsigned(rs1) + imm]));
                     break;
                 case 0x5: // lhu
-                    setRegister(rd, *((uint16_t*)&dataMemory[getRegisterUnsigned(rs1) + imm]));
+                    setRegister(rd, *((uint16_t*)&memory[getRegisterUnsigned(rs1) + imm]));
                     break;
                 default:
                     return -1;
@@ -88,8 +88,8 @@ int executeIFormat(
                     printf("%f", *((float*)&a0));
                     break;
                 case 4: // print_string
-                    while(dataMemory[a0] != 0) {
-                        printf("%c", dataMemory[a0++]);
+                    while(memory[a0] != 0) {
+                        printf("%c", memory[a0++]);
                     }
                     break;
                 case 10: // exit
