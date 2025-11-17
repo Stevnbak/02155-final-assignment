@@ -35,12 +35,12 @@ int executeBFormat(
             }
             break;
         case 0x6: // bltu
-            if (getRegister(rs1) < getRegister(rs2)){
+            if (getRegisterUnsigned(rs1) < getRegisterUnsigned(rs2)){
                 PC += imm - 4;
             }
             break;
         case 0x7: // bgeu
-            if (getRegister(rs1) <= getRegister(rs2)){
+            if (getRegisterUnsigned(rs1) >= getRegisterUnsigned(rs2)){
                 PC += imm - 4;
             }
             break;

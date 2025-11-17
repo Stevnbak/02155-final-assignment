@@ -12,6 +12,7 @@ int executeIFormat(
 ) {
     uint16_t immu = (((uint16_t)funct7) << 5) + rs2;
     int16_t imm = (((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 5) + rs2;
+
     switch(opcode) {
         case 0x13: //0010011
             switch(funct3){
@@ -25,7 +26,9 @@ int executeIFormat(
                     setRegister(rd, (getRegister(rs1) < imm) ? 1 : 0);
                     break;
                 case 0x3: // sltiu
-                    setRegisterUnsigned(rd, (getRegisterUnsigned(rs1) < immu) ? 1 : 0);
+                    int32_t temp = (int32_t)imm;
+                    uint32_t tempu = *((uint32_t*)(&temp));
+                    setRegisterUnsigned(rd, (getRegisterUnsigned(rs1) < tempu) ? 1 : 0);
                     break;
                 case 0x4: //xori
                     setRegister(rd, getRegister(rs1) ^ immu);
@@ -85,8 +88,7 @@ int executeIFormat(
                     printf("%f", *((float*)&a0));
                     break;
                 case 4: // print_string
-                    while(1) {
-                        if(dataMemory[a0] == 0) break;
+                    while(dataMemory[a0] != 0) {
                         printf("%c", dataMemory[a0++]);
                     }
                     break;
