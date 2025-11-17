@@ -7,13 +7,13 @@ uint8_t running = 1;
 uint32_t PC = 0;
 int returnCode = 0;
 
-int registers[32];
+int32_t registers[32];
 
-int getRegister(uint8_t reg) {
+int32_t getRegister(uint8_t reg) {
     if(reg == 0) return 0;
     return registers[reg];
 }
-void setRegister(uint8_t reg, int value) {
+void setRegister(uint8_t reg, int32_t value) {
     if(reg == 0) return;
     registers[reg] = value;
 }

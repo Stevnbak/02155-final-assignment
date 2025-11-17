@@ -15,8 +15,9 @@ int main(int argc, char* argv[]) {
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir (directory)) != NULL) {
-        strcat(directory, "/");
-        /* print all the files and directories within directory */
+        // Add / to end of directory path if it's not already there
+        if(directory[strlen(directory) - 1] != '/') strcat(directory, "/");
+        
         while ((ent = readdir (dir)) != NULL) {
             //Find file format
             uint32_t i = 0;
@@ -27,7 +28,7 @@ int main(int argc, char* argv[]) {
             char binFilePath[1000];
             strcpy(binFilePath, directory);
             strcat(binFilePath, ent->d_name);
-            //printf("Binary file: %s\n", binFilePath);
+
             executeProgram(binFilePath, 0);
 
             // Check against registry file
@@ -35,8 +36,6 @@ int main(int argc, char* argv[]) {
             strcpy(resFilePath, directory);
             strncat(resFilePath, ent->d_name, strlen(ent->d_name) - 3);
             strcat(resFilePath, "res");
-            
-            //printf("Res file: %s\n", resFilePath);
 
             FILE* file = fopen(resFilePath, "r");
             if(file == NULL) {
@@ -69,11 +68,7 @@ int main(int argc, char* argv[]) {
         closedir (dir);
     } else {
         /* could not open directory */
-        perror ("");
+        printf("Failed to open specified directory");
         return EXIT_FAILURE;
     }
-    
-    
-    //executeProgram(argv[1]);
-    //reset();
 }

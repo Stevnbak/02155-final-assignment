@@ -67,7 +67,7 @@ int executeProgram(char* filename, int print) {
     if(print) printf("Trying to open \"%s\"\n", filename);
     FILE* file = fopen(filename, "r");
     if(file == NULL) {
-        printf("Failed to open file\n");
+        printf("Failed to open \"%s\"\n", filename);
         return 1;
     }
     if(print) printf("Opened file\n");

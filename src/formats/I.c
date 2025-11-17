@@ -14,7 +14,7 @@ int executeIFormat(
     int16_t imm = (((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 5) + rs2;
 
     switch(opcode) {
-        case 0x13: //0010011
+        case 0x13: //0010011 = Arithmetics
             switch(funct3){
                 case 0x0: // addi
                     setRegister(rd, getRegister(rs1) + imm);
@@ -50,7 +50,7 @@ int executeIFormat(
                     return -1;
             }
             break;
-        case 0x3:  //0000011
+        case 0x3:  //0000011 = load
             switch(funct3) {
                 case 0x0: // lb
                     setRegister(rd, *((int8_t*)&memory[getRegisterUnsigned(rs1) + imm]));
@@ -71,12 +71,12 @@ int executeIFormat(
                     return -1;
             }
             break;
-        case 0x67: //1100111
+        case 0x67: //1100111 = jalr
             if(funct3 != 0) return -1;
             setRegister(rd, PC);
             PC = getRegister(rs1) + imm;
             break;
-        case 0x73: //1110011
+        case 0x73: //1110011 = ecall
             if (imm != 0) return -1;
             uint32_t a7 = getRegisterUnsigned(17);
             uint32_t a0 = getRegisterUnsigned(10);

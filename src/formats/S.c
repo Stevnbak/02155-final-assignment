@@ -8,7 +8,6 @@ int executeSFormat(
     uint8_t funct3,
     uint8_t funct7
 ) {
-    //uint16_t immu = (((uint16_t)funct7) << 5) + rd;
     int16_t imm = (((int8_t)((*(int8_t*)&funct7) << 1) >> 1) << 5) + rd;
     switch(funct3) {
         case 0x0:
