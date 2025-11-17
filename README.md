@@ -14,4 +14,3 @@ To run a single file, just a .bin file is needed, where .bin is the binary code 
 ```
  ./singleFile <path/to/binary_test_file>
 ```
-
