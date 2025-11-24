@@ -1,6 +1,5 @@
 #include "cpu.h"
 
-uint32_t instructionMemory[1 * 1000];
 char memory[1 * 1024 * 1024];
 
 uint8_t running = 1;
