@@ -1,8 +1,11 @@
 singleFile
 runTests
 tests
+test_tools
 *.o
 
 .nfs*
 
 .zed
+
+*.res
